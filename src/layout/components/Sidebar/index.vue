@@ -1,0 +1,199 @@
+<script lang="ts" setup>
+import { computed } from "vue"
+import { RouteRecordRaw, useRoute } from "vue-router"
+import { storeToRefs } from "pinia"
+import { useAppStore } from "@/store/modules/app"
+import { usePermissionStore } from "@/store/modules/permission"
+import { useSettingsStore } from "@/store/modules/settings"
+import SidebarItem from "./SidebarItem.vue"
+import SidebarLogo from "./SidebarLogo.vue"
+import Hamburger from "../Hamburger/index.vue"
+import { getCssVariableValue } from "@/utils"
+
+const v3SidebarMenuBgColor = getCssVariableValue("--v3-sidebar-menu-bg-color")
+const v3SidebarMenuTextColor = getCssVariableValue("--v3-sidebar-menu-text-color")
+const v3SidebarMenuActiveTextColor = getCssVariableValue("--v3-sidebar-menu-active-text-color")
+
+const route = useRoute()
+const appStore = useAppStore()
+const permissionStore = usePermissionStore()
+const settingsStore = useSettingsStore()
+
+const { showSidebarLogo } = storeToRefs(settingsStore)
+
+const treeToArray = (tree: any[], includesChildren = true): any[] => {
+  return tree.reduce((res, item: any) => {
+    const { children, ...i } = item
+    return res.concat(includesChildren ? item : i, children && children.length ? treeToArray(children) : [])
+  }, [])
+}
+
+const activeMenu = computed(() => {
+  const { meta, path, matched } = route
+  if (meta?.activeMenu) {
+    return meta.activeMenu
+  }
+  const platformRoute = treeToArray(sidebarMenu.value, false)
+
+  let activeItem
+  // 用matched反向遍历查找匹配[反向的精确度从高到低]
+  for (let i = matched.length - 1; i >= 0; i--) {
+    const match = platformRoute.find((ele) => ele.name === matched[i].name)
+    if (match) {
+      activeItem = matched[i]
+      break
+    }
+  }
+
+  // const activeItem = sidebarMenu.value.find((ele) => path.includes(ele.path))
+  // 非精准匹配
+  return activeItem?.path ?? path
+})
+
+const isCollapse = computed(() => {
+  return !appStore.sidebar.opened
+})
+
+const sidebar = computed(() => {
+  return appStore.sidebar
+})
+const toggleSidebar = () => {
+  appStore.toggleSidebar(false)
+}
+const sidebarMenu = computed(() => {
+  // 超过第二级的去掉children,临时处理
+  // TODO: 过滤商户后台设置的隐藏的菜单
+  const list: RouteRecordRaw[] = []
+
+  permissionStore.routes.forEach((ele) => {
+    const temp = JSON.parse(JSON.stringify(ele))
+    temp.children?.forEach((el: RouteRecordRaw) => {
+      el.children && delete el.children
+    })
+    list.push(temp)
+  })
+  console.log(list.filter((e) => !e.meta?.hidden))
+  return list.filter((e) => !e.meta?.hidden)
+})
+</script>
+
+<template>
+  <div :class="{ 'has-logo': showSidebarLogo }" class="bg-white flex flex-col boxShadow">
+    <SidebarLogo v-if="showSidebarLogo" :collapse="isCollapse" />
+    <el-scrollbar wrap-class="scrollbar-wrapper select-none">
+      <el-menu
+        :default-active="activeMenu"
+        :collapse="isCollapse"
+        :background-color="v3SidebarMenuBgColor"
+        :text-color="v3SidebarMenuTextColor"
+        :active-text-color="v3SidebarMenuActiveTextColor"
+        :unique-opened="true"
+        :collapse-transition="false"
+        mode="vertical"
+      >
+        <SidebarItem
+          :active="route.path.startsWith(router.path)"
+          v-for="router in sidebarMenu"
+          :key="router.path"
+          :item="router"
+          :base-path="router.path"
+          :is-collapse="isCollapse"
+        />
+      </el-menu>
+    </el-scrollbar>
+    <div class="flex h-54px el-border-radius-round border-t borderEEE">
+      <Hamburger :is-active="sidebar.opened" class="hamburger" @toggle-click="toggleSidebar" />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@mixin tip-line {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    // background-color: var(--v3-sidebar-menu-tip-line-bg-color);
+  }
+}
+
+.has-logo {
+  .el-scrollbar {
+    height: calc(100% - var(--v3-header-height) - 54px);
+    margin-top: 24px;
+  }
+}
+
+.el-scrollbar {
+  height: 100%;
+  ::v-deep(.scrollbar-wrapper) {
+    // 限制水平宽度
+    overflow-x: hidden !important;
+    .el-scrollbar__view {
+      height: 100%;
+    }
+  }
+  // 滚动条
+  ::v-deep(.el-scrollbar__bar) {
+    &.is-horizontal {
+      // 隐藏水平滚动条
+      display: none;
+    }
+  }
+}
+
+.el-menu {
+  border: none;
+  height: 100%;
+  width: 100% !important;
+}
+
+::v-deep(.el-menu-item),
+::v-deep(.el-sub-menu__title),
+::v-deep(.el-sub-menu .el-menu-item) {
+  height: var(--v3-sidebar-menu-item-height);
+  line-height: var(--v3-sidebar-menu-item-height);
+  &:hover {
+    background-color: var(--v3-sidebar-menu-hover-bg-color);
+  }
+  // display: block;
+  * {
+    vertical-align: middle;
+  }
+}
+
+::v-deep(.el-menu-item) {
+  &.is-active {
+    &[role^="menuItem"] {
+      font-weight: bold;
+    }
+    @include tip-line;
+  }
+}
+
+::v-deep(.el-sub-menu) {
+  &.is-active {
+    .el-sub-menu__title {
+      .iconfont {
+        color: var(--v3-sidebar-menu-active-text-color) !important;
+      }
+      span {
+        color: var(--v3-sidebar-menu-active-text-color) !important;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.hamburger {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  float: left;
+  padding: 0 18px;
+  cursor: pointer;
+}
+</style>

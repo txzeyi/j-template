@@ -1,0 +1,108 @@
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+      "primary": ( "base": #ff8909,"light-9":#FFFAF5),
+      "success": ( "base": #2FB745 ),
+      "danger": ( "base": #f56c6c ),
+      "warning": ( "base": #F23434 ),
+      "error": ( "base": #F23434 ),
+      "info": ( "base": #989898 ),
+      "707": #707070,
+      "blue":#5789FF,
+      "black": #333333,
+      "dark": #000000
+    ),
+  $font-size: (
+    "extra-large": 30px,
+    "medium": 22px,
+    "large": 18px,
+    "base": 16px,
+    "small": 13px,
+    "extra-small": 12px
+  ),
+  $text-color: (
+    "primary": #333333,
+    "success":#5789FF,
+    "success-hover":#356CEF,
+    "danger":#F23434,
+    "danger-hover":#E31313,
+    "regular": #707070,
+    "secondary":#989898
+  ),
+  $bg-color:(
+    "page": #F7F7F7
+  ),
+  $font-family: (
+    "": "Alibaba-Regular"
+  ),
+  $checkbox: (
+    "font-size": var(--el-font-size-base),
+    "input-width": var(--el-font-size-large),
+    "input-height": var(--el-font-size-large),
+    "input-border": var(--el-border-width) var(--el-border-style) var(--el-border-color-989)
+  ),
+  $border-color:(
+    "":#CCCCCC,
+    "989": #989898,
+    "light": #B3B3B3,
+    "lighter": #EEEEEE
+  ),
+  $input: (
+    "text-color": var(--el-text-color-primary),
+    "border-radius": var(--el-border-radius-base),
+    "hover-border": var(--el-border-color-light)
+  ),
+  $input-font-size:(
+    "default": 16px
+  ),
+  $dialog: (
+    "border-radius": var(--el-border-radius-round),
+    "padding-primary": 15px 24px,
+    "content-font-size": var(--el-font-size-base)
+  ),
+  $button: (
+    "border-radius": var(--el-border-radius-base),
+    "text-color": var(--el-text-color-primary)
+  ),
+  $message: (
+    "padding": "14px 30px",
+    "min-width": auto,
+    "box-shadow": 0px 0px 14px rgba(0, 0, 0, 0.12)
+  ),
+  $border-radius: (
+    "round": 24px,
+    "base": 8px,
+    "small": 4px,
+    "6": 6px
+  ),
+  $table: (
+    "header-bg-color": var(--el-fill-color-light),
+    "text-color": var(--el-text-color-primary)
+  ),
+  $table-padding:(
+    'large': 18px 0,
+  ),
+  $messagebox: (
+    "border-radius": var(--el-border-radius-base),
+    "content-color": var(--el-text-color-primary)
+  ),
+  $popover: (
+    "border-radius": var(--el-border-radius-small)
+  ),
+  $cascader: (
+    "menu-radius": var(--el-border-radius-small)
+  ),
+  $common-component-size:(
+    "large": 36px,
+    "small":  28px
+  ),
+  $form:(
+    'label-font-size': var(--el-font-size-base)
+  ),
+  $overlay-color: (
+    'basic': rgba(0, 0, 0, .35)
+  ),
+  $fill-color:(
+    'light':var(--el-bg-color-page)
+  )
+);
+// @use "element-plus/theme-chalk/src/index.scss" as *;
