@@ -1,16 +1,19 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router"
 import { useUserStore } from "@/store/modules/user"
-import { UserFilled, ArrowDown } from "@element-plus/icons-vue"
+import { ArrowDown } from "@element-plus/icons-vue"
 import Breadcrumb from "../Breadcrumb/index.vue"
 
 const router = useRouter()
 const userStore = useUserStore()
+const { info, initSystem } = useStore("system")
 
 const logout = () => {
   userStore.logout()
   router.push("/login")
 }
+
+initSystem()
 </script>
 
 <template>
@@ -22,7 +25,7 @@ const logout = () => {
       <el-dropdown class="right-menu-item boxShadow rounded-lg">
         <div class="flex-center min-w-150px bg-white rounded-md justify-between leading-36px">
           <!-- <el-avatar shape="square" :icon="UserFilled" :size="36" /> -->
-          <div class="name px-3">云镜商城</div>
+          <div class="name px-3">{{ info.systemName }}</div>
           <el-icon class="el-icon--right el-icon--left"><arrow-down /></el-icon>
         </div>
         <template #dropdown>

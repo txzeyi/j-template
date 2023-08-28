@@ -1,7 +1,7 @@
 {
-  "name": "yunjing-template",
+  "name": "j-admin",
   "version": "0.0.1",
-  "description": "云镜-后台模板",
+  "description": "后台模板",
   "scripts": {
     "dev": "vite",
     "build:test": "vue-tsc && vite build --mode staging",

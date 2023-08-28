@@ -1,6 +1,7 @@
 // "https://github.com/Allen-1998/pinia-auto-refs"
 import { AutoToRefs, ToRef } from "vue"
 
+import systemStore from "@/store/system"
 import userInfoStore from "@/store/userInfo"
 
 declare module "vue" {
@@ -10,6 +11,7 @@ declare module "vue" {
 }
 
 const storeExports = {
+  system: systemStore,
   userInfo: userInfoStore
 }
 
