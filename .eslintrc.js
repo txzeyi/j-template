@@ -3,7 +3,7 @@ module.exports = {
   env: {
     browser: true,
     node: true,
-    es6: true,
+    es6: true
   },
   extends: [
     "vue-global-api",
@@ -11,7 +11,7 @@ module.exports = {
     "eslint:recommended",
     "@vue/typescript/recommended",
     "@vue/eslint-config-typescript", // "@vue/prettier",
-    "./.eslintrc-auto-import.json", // unplugin-auto-import 自动生成的文件
+    "./.eslintrc-auto-import.json" // unplugin-auto-import 自动生成的文件
   ],
   parser: "vue-eslint-parser",
   parserOptions: {
@@ -21,8 +21,8 @@ module.exports = {
     jsxPragma: "React",
     ecmaFeatures: {
       jsx: true,
-      tsx: true,
-    },
+      tsx: true
+    }
   },
   plugins: ["vue", "@typescript-eslint", "prettier"],
   rules: {
@@ -40,10 +40,7 @@ module.exports = {
     "@typescript-eslint/no-use-before-define": "off",
 
     "@typescript-eslint/no-unused-vars": "warn",
-    "no-unused-vars": [
-      "error",
-      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-    ],
+    "no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
     // Vue
     "vue/no-v-html": "off",
     "vue/require-default-prop": "off",
@@ -53,10 +50,9 @@ module.exports = {
       "off",
       {
         html: { void: "always", normal: "always", component: "always" },
-
         svg: "always",
-        math: "always",
-      },
+        math: "always"
+      }
     ],
     // Prettier
     "prettier/prettier": ["error", { endOfLine: "auto" }],
@@ -118,13 +114,13 @@ module.exports = {
     curly: "warn", // 强制所有控制语句使用一致的括号风格
     semi: ["warn", "never"], // 禁止出现;
     camelcase: "warn", // 强制使用骆驼拼写法命名约定
-    indent: "off", // 强制使用一致的缩进
+    indent: "off" // 强制使用一致的缩进
   },
   globals: {
     // script setup
     defineProps: "readonly",
     defineEmits: "readonly",
     defineExpose: "readonly",
-    withDefaults: "readonly",
-  },
-};
+    withDefaults: "readonly"
+  }
+}

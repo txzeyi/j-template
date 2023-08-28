@@ -24,9 +24,9 @@ const props = defineProps({
     type: String,
     default: ""
   },
-  active:{
-    type:Boolean,
-    default:false
+  active: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -72,7 +72,7 @@ const resolvePath = (routePath: string) => {
 </script>
 
 <template>
-  <div v-if="!props.item.meta?.hidden" :class="{ 'simple-mode': props.isCollapse, 'first-level': props.isFirstLevel ,'is-active':props.active}">
+  <div v-if="!props.item.meta?.hidden" :class="{ 'simple-mode': props.isCollapse, 'first-level': props.isFirstLevel, 'is-active': props.active }">
     <template v-if="!alwaysShowRootMenu && theOnlyOneChild && !theOnlyOneChild.children">
       <SidebarItemLink v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
         <el-menu-item :index="resolvePath(theOnlyOneChild.path)">
@@ -129,10 +129,10 @@ const resolvePath = (routePath: string) => {
 }
 </style>
 <style lang="scss">
-
-.el-sub-menu.is-active{
-  .el-sub-menu__title{
-    font-weight:bold;
-    color:#ff8909 !important;
+.el-sub-menu.is-active {
+  .el-sub-menu__title {
+    font-weight: bold;
+    color: #ff8909 !important;
   }
-}</style>
+}
+</style>

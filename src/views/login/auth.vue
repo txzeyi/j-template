@@ -23,16 +23,7 @@ if (!token.value) {
   }, 2000)
 } else {
   // 解析token
-  authToken(
-    {
-      systemType: 0,
-      token: token.value
-    },
-    {
-      systemId: systemId.value,
-      tenantId: tenantId.value
-    }
-  ).then(
+  authToken({ systemType: 0, token: token.value }, { systemId: systemId.value, tenantId: tenantId.value }).then(
     async (res: any) => {
       const userInfo = res.data
       setToken(userInfo.token)

@@ -31,6 +31,10 @@ yarn.lock
 pnpm-lock.yaml
 package-lock.json
 
+# 自定义组件
+src/components/custom/richTextEditor/*
+src/components/custom/gridTable/*
+
 # 自动引入生成文件
 src/styles/auto-imports.d.ts
 src/styles/components.d.ts

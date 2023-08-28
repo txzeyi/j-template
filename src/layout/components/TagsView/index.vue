@@ -97,14 +97,12 @@ const toLastView = (visitedViews: ITagView[], view: ITagView) => {
   const latestView = visitedViews.slice(-1)[0]
   if (latestView !== undefined && latestView.fullPath !== undefined) {
     router.push(latestView.fullPath)
+  } else if (view.name === "Dashboard") {
+    // 重新加载主页
+    router.push({ path: "/redirect" + view.path, query: view.query })
   } else {
     // 如果 TagsView 全部被关闭了，则默认重定向到主页
-    if (view.name === "Dashboard") {
-      // 重新加载主页
-      router.push({ path: "/redirect" + view.path, query: view.query })
-    } else {
-      router.push("/")
-    }
+    router.push("/")
   }
 }
 
@@ -187,7 +185,9 @@ onMounted(() => {
   width: 100%;
   background-color: #fff;
   border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 #00000010, 0 0 3px 0 #00000010;
+  box-shadow:
+    0 1px 3px 0 #00000010,
+    0 0 3px 0 #00000010;
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;

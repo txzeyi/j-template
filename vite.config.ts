@@ -12,10 +12,12 @@ import Components from "unplugin-vue-components/vite"
 import UnoCSS from "unocss/vite"
 import PiniaAutoRefs from "pinia-auto-refs"
 
+import { viteMockServe } from "vite-plugin-mock"
+
 // https://vitejs.dev/config/
 export default (configEnv: ConfigEnv): UserConfigExport => {
   const viteEnv = loadEnv(configEnv.mode, process.cwd()) as ImportMetaEnv
-  const { VITE_PUBLIC_PATH, VITE_PARENT_COMPANY } = viteEnv
+  const { VITE_PUBLIC_PATH } = viteEnv
   process.title = "条码系统"
   return {
     /** 打包时根据实际情况修改 base */
@@ -49,12 +51,19 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
         /** 自动按需导入 Element-Plus 相关函数，比如 ElMessage */
         resolvers: [ElementPlusResolver({ importStyle: "sass" })],
         eslintrc: {
-          enabled: false, // 默认 false,true启用。生成一次就可以，避免每次工程启动都生成
+          enabled: true, // 默认 false, true启用。生成一次就可以，避免每次工程启动都生成
           filepath: "./.eslintrc-auto-import.json", // 默认 "./.eslintrc-auto-import.json"
           globalsPropValue: true // 默认 true (true | false | "readonly" | "readable" | "writable" | "writeable")
         }
         /** 根据自动按需导入的相关 API，生成 .eslintrc-auto-import.json 文件供 Eslint 识别 */
         // dts: "auto-imports.d.ts"
+      }),
+      viteMockServe({
+        mockPath: "./mock",
+        supportTs: true,
+        localEnabled: Boolean(loadEnv(configEnv.mode, process.cwd()).VITE_MOCK), // 开发环境是否启用mock
+        logger: true, // 控制台输出请求日志
+        watchFiles: true
       })
     ],
     css: {
