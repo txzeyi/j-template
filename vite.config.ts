@@ -51,7 +51,7 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
         /** 自动按需导入 Element-Plus 相关函数，比如 ElMessage */
         resolvers: [ElementPlusResolver({ importStyle: "sass" })],
         eslintrc: {
-          enabled: true, // 默认 false, true启用。生成一次就可以，避免每次工程启动都生成
+          enabled: false, // 默认 false, true启用。生成一次就可以，避免每次工程启动都生成
           filepath: "./.eslintrc-auto-import.json", // 默认 "./.eslintrc-auto-import.json"
           globalsPropValue: true // 默认 true (true | false | "readonly" | "readable" | "writable" | "writeable")
         }
